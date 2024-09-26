@@ -7,6 +7,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import com.cucumberFramework.enums.Browsers;
 import com.cucumberFramework.enums.OS;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 
 public class TestBase {
 
@@ -16,19 +18,25 @@ public class TestBase {
 	public WebDriver selectBrowser(String browser) {
 		if (System.getProperty("os.name").toLowerCase().contains(OS.WINDOW.name().toLowerCase())) {
 			if (browser.equalsIgnoreCase(Browsers.CHROME.name())) {
-				System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver.exe");
+				 WebDriverManager.chromedriver().setup();
+				//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver.exe");
 				driver = new ChromeDriver();
 				driver.manage().window().maximize();
 			} else if (browser.equalsIgnoreCase(Browsers.FIREFOX.name())) {
-				System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/geckodriver.exe");
-				driver = new FirefoxDriver();
+				//System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/geckodriver.exe");
+				WebDriverManager.firefoxdriver().setup();
+
+		        // Initialize the FirefoxDriver instance
+		         driver = new FirefoxDriver();
 			}
 		} else if (System.getProperty("os.name").toLowerCase().contains(OS.MAC.name().toLowerCase())) {
 			if (browser.equalsIgnoreCase(Browsers.CHROME.name())) {
-				System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver");
+				//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver");
+				WebDriverManager.chromedriver().setup();
+				//System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/drivers/chromedriver.exe");
 				driver = new ChromeDriver();
 			} else if (browser.equalsIgnoreCase(Browsers.FIREFOX.name())) {
-				System.setProperty("webdriver.firefox.marionette", System.getProperty("user.dir") + "/src/test/resources/drivers/geckodriver");
+				//System.setProperty("webdriver.firefox.marionette", System.getProperty("user.dir") + "/src/test/resources/drivers/geckodriver");
 				driver = new FirefoxDriver();
 			}
 		}
